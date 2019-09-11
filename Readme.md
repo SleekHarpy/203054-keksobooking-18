@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Владислав Шевцов](https://up.htmlacademy.ru/javascript/18/user/203054).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Буртылёв](https://up.htmlacademy.ru/javascript/18/user/3341).
 
 ---
 
