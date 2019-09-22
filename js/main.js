@@ -61,6 +61,8 @@ var generateData = function () {
 
 generateData();
 
+var dataArray = generateData();
+
 var removeClass = function (classElem, className) {
   classElem.classList.remove(className);
 };
