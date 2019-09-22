@@ -79,13 +79,12 @@ var generatePinElement = function (obj) {
   return pinElement;
 };
 
-var renderPins = function (dataArray) {
+var renderPins = function (arrayObj) {
   var fragment = document.createDocumentFragment();
-  for (var i = 0; i < dataArray.length; i++) {
-    fragment.appendChild(generatePinElement(dataArray[i]));
+  for (var i = 0; i < arrayObj.length; i++) {
+    fragment.appendChild(generatePinElement(arrayObj[i]));
   }
   mapPins.appendChild(fragment);
 };
 
-renderPins();
-
+renderPins(dataArray);
