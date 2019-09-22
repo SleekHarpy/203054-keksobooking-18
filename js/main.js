@@ -59,31 +59,33 @@ var generateData = function () {
   return dataArray;
 };
 
+generateData();
+
 var removeClass = function (classElem, className) {
   classElem.classList.remove(className);
 };
 
-generateData();
-
 removeClass(map, 'map--faded');
 
-var generatePinElement = function () {
+var generatePinElement = function (obj) {
   var pinElement = mapPinTemplate.cloneNode(true);
 
-  pinElement.style.left = randomInteger(100, 800) + 'px';
-  pinElement.style.top = randomInteger(100, 600) + 'px';
+  pinElement.style.left = obj.location.x + 'px';
+  pinElement.style.top = obj.location.y + 'px';
 
-  pinElement.querySelector('img').src = 'img/avatars/user08.png';
-  pinElement.querySelector('img').alt = 'img/avatars/user08.png';
+  pinElement.querySelector('img').src = obj.author.avatar;
+  pinElement.querySelector('img').alt = obj.offer.title;
 
-  mapPins.appendChild(pinElement);
+  return pinElement;
 };
 
-var generatePins = function () {
-  for (var i = 0; i < 8; i++) {
-    generatePinElement();
+var renderPins = function (dataArray) {
+  var fragment = document.createDocumentFragment();
+  for (var i = 0; i < dataArray.length; i++) {
+    fragment.appendChild(generatePinElement(dataArray[i]));
   }
+  mapPins.appendChild(fragment);
 };
 
-generatePins();
+renderPins();
 
