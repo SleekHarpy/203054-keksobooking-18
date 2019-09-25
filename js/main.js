@@ -109,10 +109,10 @@ var createFeatures = function (dataFe) {
   return fragment;
 };
 
-/* var createPhoto = function (dataPh) {
+var createPhoto = function (dataPh) {
   var fragment = document.createDocumentFragment();
 
-  for (var i = 0; dataPh.offer.photos.length; i++) {
+  for (var i = 0; i < dataPh.offer.photos.length; i++) {
     var photoElement = document.createElement('img');
     photoElement.classList.add('popup__photo');
     photoElement.src = dataPh.offer.photos[i];
@@ -123,7 +123,7 @@ var createFeatures = function (dataFe) {
   }
 
   return fragment;
-}; */
+};
 
 var generateCardElement = function (obj) {
   var cardElement = cardTemplate.cloneNode(true);
@@ -147,8 +147,8 @@ var generateCardElement = function (obj) {
   cardElement.querySelector('.popup__features').innerHTML = '';
   cardElement.querySelector('.popup__features').appendChild(createFeatures(obj));
   cardElement.querySelector('.popup__description').textContent = obj.offer.description;
-  // cardElement.querySelector('.popup__photos').innerHTML = '';
-  // cardElement.querySelector('.popup__photos').appendChild(createPhoto(obj));
+  cardElement.querySelector('.popup__photos').innerHTML = '';
+  cardElement.querySelector('.popup__photos').appendChild(createPhoto(obj));
 
   cardElement.querySelector('.popup__avatar').src = obj.author.avatar;
 
