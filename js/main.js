@@ -64,11 +64,11 @@ var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var mapPinTemplate = document.querySelector('#pin').content.querySelector('button');
 
-var removeClass = function (classElem, className) {
+/* var removeClass = function (classElem, className) {
   classElem.classList.remove(className);
-};
+}; */
 
-removeClass(map, 'map--faded');
+// removeClass(map, 'map--faded');
 
 var generatePinElement = function (obj) {
   var pinElement = mapPinTemplate.cloneNode(true);
@@ -89,8 +89,6 @@ var renderPins = function (arrayObj) {
   }
   mapPins.appendChild(fragment);
 };
-
-renderPins(dataArray);
 
 // Карточка объявления
 
@@ -160,4 +158,91 @@ var renderCard = function (arrayObj) {
   map.insertBefore(cardElement, mapFilters);
 };
 
-renderCard(dataArray[0]);
+// 8. Личный проект: подробности: module4-task2
+
+var pinMain = document.querySelector('.map__pin--main');
+var mapFiltersSelect = mapFilters.querySelectorAll('select');
+var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
+
+var notice = document.querySelector('.notice');
+var noticeFieldset = notice.querySelectorAll('fieldset');
+var adForm = notice.querySelector('.ad-form');
+
+var MAP_PIN_MAIN_WIDTH = 65;
+var MAP_PIN_MAIN_HEIGHT = 65 + 22;
+
+var addElementAttribute = function (tagName, attrName, attrValue) {
+  for (var i = 0; i < tagName.length; i++) {
+    tagName[i].setAttribute(attrName, attrValue);
+  }
+};
+
+var removeElementAttribute = function (tagName, attrName) {
+  for (var i = 0; i < tagName.length; i++) {
+    tagName[i].removeAttribute(attrName);
+  }
+};
+
+addElementAttribute(noticeFieldset, 'disabled', '');
+addElementAttribute(mapFiltersSelect, 'disabled', '');
+addElementAttribute(mapFiltersFieldset, 'disabled', '');
+
+var activationPage = function () {
+  map.classList.remove('map--faded');
+  adForm.classList.remove('ad-form--disabled');
+
+  renderCard(dataArray[0]);
+  renderPins(dataArray);
+
+  removeElementAttribute(noticeFieldset, 'disabled');
+  removeElementAttribute(mapFiltersSelect, 'disabled');
+  removeElementAttribute(mapFiltersFieldset, 'disabled');
+};
+
+pinMain.addEventListener('click', function () {
+  activationPage();
+});
+
+var getCoordinatesPinMain = function () {
+  var x = Number(pinMain.style.left.replace(/[^\d]/g, ''));
+  var y = Number(pinMain.style.top.replace(/[^\d]/g, ''));
+  return {
+    x: x,
+    y: y
+  };
+};
+
+var pinMainaddress = getCoordinatesPinMain();
+
+var fillingAddress = function () {
+  var address = document.querySelector('#address');
+
+  address.value = Math.round((pinMainaddress.x + (MAP_PIN_MAIN_WIDTH / 2))) + ', ' + Math.round((pinMainaddress.y + MAP_PIN_MAIN_HEIGHT));
+
+  address.setAttribute('readonly', '');
+};
+
+fillingAddress();
+
+var roomNumber = document.querySelector('#room_number');
+var capacity = document.querySelector('#capacity');
+
+function syncRoomToGuest() {
+  var roomToGuestMessage = '';
+  if (roomNumber.value !== '100' && capacity.value > roomNumber.value) {
+    roomToGuestMessage = 'Извините, но количество гостей не должно превышать ' + roomNumber.value + '.';
+  } else if (roomNumber.value !== '100' && capacity.value === '0') {
+    roomToGuestMessage = 'Извините, но данная опция доступна только для аппартаментов со 100 комнатами.';
+  } else if (roomNumber.value === '100' && capacity.value !== '0') {
+    roomToGuestMessage = 'Извините, но аппартаменты на 100 комнат не предназначены для гостей.';
+  }
+  capacity.setCustomValidity(roomToGuestMessage);
+}
+
+roomNumber.addEventListener('change', function () {
+  syncRoomToGuest();
+});
+
+capacity.addEventListener('change', function () {
+  syncRoomToGuest();
+});
