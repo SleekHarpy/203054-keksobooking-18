@@ -160,47 +160,43 @@ var renderCard = function (arrayObj) {
 
 // 8. Личный проект: подробности: module4-task2
 
-var pinMain = document.querySelector('.map__pin--main');
-var mapFiltersSelect = mapFilters.querySelectorAll('select');
-var mapFiltersFieldset = mapFilters.querySelectorAll('fieldset');
-
-var notice = document.querySelector('.notice');
-var noticeFieldset = notice.querySelectorAll('fieldset');
-var adForm = notice.querySelector('.ad-form');
-
 var MAP_PIN_MAIN_WIDTH = 65;
 var MAP_PIN_MAIN_HEIGHT = 65 + 22;
 
-var addElementAttribute = function (tagName, attrName, attrValue) {
+var pinMain = document.querySelector('.map__pin--main');
+var mapFiltersSelect = mapFilters.querySelectorAll('select, fieldset');
+
+var adForm = document.querySelector('.ad-form');
+var adFormFieldset = adForm.querySelectorAll('fieldset');
+
+var disableElements = function (tagName) {
   for (var i = 0; i < tagName.length; i++) {
-    tagName[i].setAttribute(attrName, attrValue);
+    tagName[i].setAttribute('disabled', '');
   }
 };
 
-var removeElementAttribute = function (tagName, attrName) {
+var enableElements = function (tagName) {
   for (var i = 0; i < tagName.length; i++) {
-    tagName[i].removeAttribute(attrName);
+    tagName[i].removeAttribute('disabled');
   }
 };
 
-addElementAttribute(noticeFieldset, 'disabled', '');
-addElementAttribute(mapFiltersSelect, 'disabled', '');
-addElementAttribute(mapFiltersFieldset, 'disabled', '');
+disableElements(adFormFieldset);
+disableElements(mapFiltersSelect);
 
-var activationPage = function () {
+var activatePage = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
   renderCard(dataArray[0]);
   renderPins(dataArray);
 
-  removeElementAttribute(noticeFieldset, 'disabled');
-  removeElementAttribute(mapFiltersSelect, 'disabled');
-  removeElementAttribute(mapFiltersFieldset, 'disabled');
+  enableElements(adFormFieldset);
+  enableElements(mapFiltersSelect);
 };
 
 pinMain.addEventListener('click', function () {
-  activationPage();
+  activatePage();
 });
 
 var getCoordinatesPinMain = function () {
@@ -212,22 +208,20 @@ var getCoordinatesPinMain = function () {
   };
 };
 
-var pinMainaddress = getCoordinatesPinMain();
+var pinMainAddress = getCoordinatesPinMain();
 
-var fillingAddress = function () {
+var fillInAddress = function (pinCoord) {
   var address = document.querySelector('#address');
 
-  address.value = Math.round((pinMainaddress.x + (MAP_PIN_MAIN_WIDTH / 2))) + ', ' + Math.round((pinMainaddress.y + MAP_PIN_MAIN_HEIGHT));
-
-  address.setAttribute('readonly', '');
+  address.value = Math.round((pinCoord.x + (MAP_PIN_MAIN_WIDTH / 2))) + ', ' + Math.round((pinCoord.y + MAP_PIN_MAIN_HEIGHT));
 };
 
-fillingAddress();
+fillInAddress(pinMainAddress);
 
 var roomNumber = document.querySelector('#room_number');
 var capacity = document.querySelector('#capacity');
 
-function syncRoomToGuest() {
+function validateGuestNumber() {
   var roomToGuestMessage = '';
   if (roomNumber.value !== '100' && capacity.value > roomNumber.value) {
     roomToGuestMessage = 'Извините, но количество гостей не должно превышать ' + roomNumber.value + '.';
@@ -240,9 +234,9 @@ function syncRoomToGuest() {
 }
 
 roomNumber.addEventListener('change', function () {
-  syncRoomToGuest();
+  validateGuestNumber();
 });
 
 capacity.addEventListener('change', function () {
-  syncRoomToGuest();
+  validateGuestNumber();
 });
