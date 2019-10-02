@@ -10,6 +10,11 @@ var TYPE_HOUSING = ['palace', 'flat', 'house', 'bungalo'];
 var FEATURES_HOUSING = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_HOUSING = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mi semper, varius dui eu, tempus velit. Etiam lobortis ante vitae nibh condimentum ornare. Donec laoreet quam vel ante sagittis fermentum. Suspendisse luctus, nibh vitae sollicitudin consequat, magna purus porttitor massa, et fringilla nulla justo at lorem. Aenean sed pellentesque.';
+var MAP_PIN_MAIN_WIDTH = 65;
+var MAP_PIN_MAIN_HEIGHT = 65 + 22;
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+var SPACEBAR_KEYCODE = 32;
 
 function randomInteger(min, max) {
   // случайное число от min до (max+1)
@@ -72,6 +77,15 @@ var generatePinElement = function (obj) {
 
   pinElement.querySelector('img').src = obj.author.avatar;
   pinElement.querySelector('img').alt = obj.offer.title;
+
+  var pinOpenCard = function () {
+    var popup = document.querySelector('.popup');
+    if (typeof (popup) === 'undefined' || popup === null) {
+      renderCard(obj);
+    }
+  };
+
+  pinElement.addEventListener('click', pinOpenCard);
 
   return pinElement;
 };
@@ -144,6 +158,24 @@ var generateCardElement = function (obj) {
 
   cardElement.querySelector('.popup__avatar').src = obj.author.avatar;
 
+  var closePopupButton = cardElement.querySelector('.popup__close');
+
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
+    }
+  };
+
+  var closePopup = function () {
+    cardElement.remove();
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+
+  closePopupButton.addEventListener('click', closePopup);
+  closePopupButton.addEventListener('keydown', onPopupEscPress);
+  document.addEventListener('keydown', onPopupEscPress);
+
   return cardElement;
 };
 
@@ -153,11 +185,6 @@ var renderCard = function (arrayObj) {
 };
 
 // 8. Личный проект: подробности: module4-task2
-
-var MAP_PIN_MAIN_WIDTH = 65;
-var MAP_PIN_MAIN_HEIGHT = 65 + 22;
-var ENTER_KEYCODE = 13;
-var SPACEBAR_KEYCODE = 32;
 
 var pinMain = document.querySelector('.map__pin--main');
 var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
@@ -184,7 +211,6 @@ var activatePage = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
-  renderCard(dataArray[0]);
   renderPins(dataArray);
 
   enableElements(adFormFieldsets);
@@ -234,6 +260,51 @@ function validateGuestNumber() {
   capacity.setCustomValidity(roomToGuestMessage);
 }
 
+validateGuestNumber();
+
 roomNumber.addEventListener('change', validateGuestNumber);
 
 capacity.addEventListener('change', validateGuestNumber);
+
+// Личный проект: доверяй, но проверяй module4-task3
+
+var typeHousingSelect = adForm.querySelector('#type');
+var priceInput = adForm.querySelector('#price');
+
+var validateHousingPrice = function () {
+  var priceSelectMessage = '';
+  if (typeHousingSelect.value === 'flat' && priceInput.value < 1000) {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+    priceSelectMessage = 'Минимальная стоимость аренды квартиры не менее 1000 рублей.';
+  } else if (typeHousingSelect.value === 'house' && priceInput.value < 5000) {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+    priceSelectMessage = 'Минимальная стоимость аренды дома не менее 5000 рублей.';
+  } else if (typeHousingSelect.value === 'palace' && priceInput.value < 10000) {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+    priceSelectMessage = 'Минимальная стоимость аренды дворца не менее 10000 рублей.';
+  }
+  priceInput.setCustomValidity(priceSelectMessage);
+};
+
+validateHousingPrice();
+
+typeHousingSelect.addEventListener('change', validateHousingPrice);
+
+priceInput.addEventListener('change', validateHousingPrice);
+
+var timeInSelect = adForm.querySelector('#timein');
+var timeOutSelect = adForm.querySelector('#timeout');
+
+var updateTimeInHandler = function (evt) {
+  timeInSelect.value = evt.target.value;
+};
+
+var updateTimeOutHandler = function (evt) {
+  timeOutSelect.value = evt.target.value;
+};
+
+timeInSelect.addEventListener('change', updateTimeOutHandler);
+timeOutSelect.addEventListener('change', updateTimeInHandler);
