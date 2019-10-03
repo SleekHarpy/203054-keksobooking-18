@@ -80,9 +80,10 @@ var generatePinElement = function (obj) {
 
   var pinOpenCard = function () {
     var popup = document.querySelector('.popup');
-    if (typeof (popup) === 'undefined' || popup === null) {
-      renderCard(obj);
+    if (popup) {
+      popup.remove();
     }
+    renderCard(obj);
   };
 
   pinElement.addEventListener('click', pinOpenCard);
@@ -273,15 +274,19 @@ var priceInput = adForm.querySelector('#price');
 
 var validateHousingPrice = function () {
   var priceSelectMessage = '';
-  if (typeHousingSelect.value === 'flat' && priceInput.value < 1000) {
+  if (typeHousingSelect.value === 'bungalo') {
+    priceInput.min = 0;
+    priceInput.placeholder = 0;
+    priceSelectMessage = 'Минимальная стоимость аренды квартиры не менее 1000 рублей.';
+  } else if (typeHousingSelect.value === 'flat') {
     priceInput.min = 1000;
     priceInput.placeholder = 1000;
     priceSelectMessage = 'Минимальная стоимость аренды квартиры не менее 1000 рублей.';
-  } else if (typeHousingSelect.value === 'house' && priceInput.value < 5000) {
+  } else if (typeHousingSelect.value === 'house') {
     priceInput.min = 5000;
     priceInput.placeholder = 5000;
     priceSelectMessage = 'Минимальная стоимость аренды дома не менее 5000 рублей.';
-  } else if (typeHousingSelect.value === 'palace' && priceInput.value < 10000) {
+  } else if (typeHousingSelect.value === 'palace') {
     priceInput.min = 10000;
     priceInput.placeholder = 10000;
     priceSelectMessage = 'Минимальная стоимость аренды дворца не менее 10000 рублей.';
