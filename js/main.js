@@ -208,7 +208,7 @@ var enableElements = function (elements) {
 disableElements(adFormFieldsets);
 disableElements(mapFiltersSelects);
 
-var activatePage = function () {
+var pageActivate = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
@@ -218,14 +218,14 @@ var activatePage = function () {
   enableElements(mapFiltersSelects);
 };
 
-var onActivatePagePress = function (evt) {
+var onPageActivatePress = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
-    activatePage();
+    pageActivate();
   }
 };
 
-pinMain.addEventListener('mousedown', activatePage);
-pinMain.addEventListener('keydown', onActivatePagePress);
+pinMain.addEventListener('mousedown', pageActivate);
+pinMain.addEventListener('keydown', onPageActivatePress);
 
 var getCoordinatesPinMain = function () {
   var x = Math.round((Number(pinMain.style.left.replace(/[^\d]/g, '')) + (MAP_PIN_MAIN_WIDTH / 2)));
@@ -302,13 +302,13 @@ priceInput.addEventListener('change', validateHousingPrice);
 var timeInSelect = adForm.querySelector('#timein');
 var timeOutSelect = adForm.querySelector('#timeout');
 
-var updateTimeInHandler = function (evt) {
+var updateTimeIn = function (evt) {
   timeInSelect.value = evt.target.value;
 };
 
-var updateTimeOutHandler = function (evt) {
+var updateTimeOut = function (evt) {
   timeOutSelect.value = evt.target.value;
 };
 
-timeInSelect.addEventListener('change', updateTimeOutHandler);
-timeOutSelect.addEventListener('change', updateTimeInHandler);
+timeInSelect.addEventListener('change', updateTimeOut);
+timeOutSelect.addEventListener('change', updateTimeIn);
