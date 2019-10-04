@@ -277,7 +277,6 @@ var validateHousingPrice = function () {
   if (typeHousingSelect.value === 'bungalo') {
     priceInput.min = 0;
     priceInput.placeholder = 0;
-    priceSelectMessage = 'Минимальная стоимость аренды квартиры не менее 1000 рублей.';
   } else if (typeHousingSelect.value === 'flat') {
     priceInput.min = 1000;
     priceInput.placeholder = 1000;
