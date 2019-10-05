@@ -273,7 +273,6 @@ var typeHousingSelect = adForm.querySelector('#type');
 var priceInput = adForm.querySelector('#price');
 
 var validateHousingPrice = function () {
-  var priceSelectMessage = '';
   if (typeHousingSelect.value === 'bungalo') {
     priceInput.min = 0;
     priceInput.placeholder = 0;
@@ -287,7 +286,6 @@ var validateHousingPrice = function () {
     priceInput.min = 10000;
     priceInput.placeholder = 10000;
   }
-  priceInput.setCustomValidity(priceSelectMessage);
 };
 
 validateHousingPrice();
