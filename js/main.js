@@ -10,6 +10,11 @@ var TYPE_HOUSING = ['palace', 'flat', 'house', 'bungalo'];
 var FEATURES_HOUSING = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS_HOUSING = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var LOREM = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam a mi semper, varius dui eu, tempus velit. Etiam lobortis ante vitae nibh condimentum ornare. Donec laoreet quam vel ante sagittis fermentum. Suspendisse luctus, nibh vitae sollicitudin consequat, magna purus porttitor massa, et fringilla nulla justo at lorem. Aenean sed pellentesque.';
+var MAP_PIN_MAIN_WIDTH = 65;
+var MAP_PIN_MAIN_HEIGHT = 65 + 22;
+var ENTER_KEYCODE = 13;
+var ESC_KEYCODE = 27;
+var SPACEBAR_KEYCODE = 32;
 
 function randomInteger(min, max) {
   // случайное число от min до (max+1)
@@ -72,6 +77,16 @@ var generatePinElement = function (obj) {
 
   pinElement.querySelector('img').src = obj.author.avatar;
   pinElement.querySelector('img').alt = obj.offer.title;
+
+  var pinOpenCard = function () {
+    var popup = document.querySelector('.popup');
+    if (popup) {
+      popup.remove();
+    }
+    renderCard(obj);
+  };
+
+  pinElement.addEventListener('click', pinOpenCard);
 
   return pinElement;
 };
@@ -144,6 +159,24 @@ var generateCardElement = function (obj) {
 
   cardElement.querySelector('.popup__avatar').src = obj.author.avatar;
 
+  var closePopupButton = cardElement.querySelector('.popup__close');
+
+  var onPopupEscPress = function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      closePopup();
+    }
+  };
+
+  var closePopup = function () {
+    cardElement.remove();
+    document.removeEventListener('keydown', onPopupEscPress);
+  };
+
+
+  closePopupButton.addEventListener('click', closePopup);
+  closePopupButton.addEventListener('keydown', onPopupEscPress);
+  document.addEventListener('keydown', onPopupEscPress);
+
   return cardElement;
 };
 
@@ -153,11 +186,6 @@ var renderCard = function (arrayObj) {
 };
 
 // 8. Личный проект: подробности: module4-task2
-
-var MAP_PIN_MAIN_WIDTH = 65;
-var MAP_PIN_MAIN_HEIGHT = 65 + 22;
-var ENTER_KEYCODE = 13;
-var SPACEBAR_KEYCODE = 32;
 
 var pinMain = document.querySelector('.map__pin--main');
 var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
@@ -180,25 +208,24 @@ var enableElements = function (elements) {
 disableElements(adFormFieldsets);
 disableElements(mapFiltersSelects);
 
-var activatePage = function () {
+var pageActivate = function () {
   map.classList.remove('map--faded');
   adForm.classList.remove('ad-form--disabled');
 
-  renderCard(dataArray[0]);
   renderPins(dataArray);
 
   enableElements(adFormFieldsets);
   enableElements(mapFiltersSelects);
 };
 
-var onActivatePagePress = function (evt) {
+var onPageActivatePress = function (evt) {
   if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
-    activatePage();
+    pageActivate();
   }
 };
 
-pinMain.addEventListener('mousedown', activatePage);
-pinMain.addEventListener('keydown', onActivatePagePress);
+pinMain.addEventListener('mousedown', pageActivate);
+pinMain.addEventListener('keydown', onPageActivatePress);
 
 var getCoordinatesPinMain = function () {
   var x = Math.round((Number(pinMain.style.left.replace(/[^\d]/g, '')) + (MAP_PIN_MAIN_WIDTH / 2)));
@@ -234,6 +261,49 @@ function validateGuestNumber() {
   capacity.setCustomValidity(roomToGuestMessage);
 }
 
+validateGuestNumber();
+
 roomNumber.addEventListener('change', validateGuestNumber);
 
 capacity.addEventListener('change', validateGuestNumber);
+
+// Личный проект: доверяй, но проверяй module4-task3
+
+var typeHousingSelect = adForm.querySelector('#type');
+var priceInput = adForm.querySelector('#price');
+
+var validateHousingPrice = function () {
+  if (typeHousingSelect.value === 'bungalo') {
+    priceInput.min = 0;
+    priceInput.placeholder = 0;
+  } else if (typeHousingSelect.value === 'flat') {
+    priceInput.min = 1000;
+    priceInput.placeholder = 1000;
+  } else if (typeHousingSelect.value === 'house') {
+    priceInput.min = 5000;
+    priceInput.placeholder = 5000;
+  } else if (typeHousingSelect.value === 'palace') {
+    priceInput.min = 10000;
+    priceInput.placeholder = 10000;
+  }
+};
+
+validateHousingPrice();
+
+typeHousingSelect.addEventListener('change', validateHousingPrice);
+
+priceInput.addEventListener('change', validateHousingPrice);
+
+var timeInSelect = adForm.querySelector('#timein');
+var timeOutSelect = adForm.querySelector('#timeout');
+
+var updateTimeIn = function (evt) {
+  timeInSelect.value = evt.target.value;
+};
+
+var updateTimeOut = function (evt) {
+  timeOutSelect.value = evt.target.value;
+};
+
+timeInSelect.addEventListener('change', updateTimeOut);
+timeOutSelect.addEventListener('change', updateTimeIn);
