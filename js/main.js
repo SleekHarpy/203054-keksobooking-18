@@ -280,15 +280,12 @@ var validateHousingPrice = function () {
   } else if (typeHousingSelect.value === 'flat') {
     priceInput.min = 1000;
     priceInput.placeholder = 1000;
-    priceSelectMessage = 'Минимальная стоимость аренды квартиры не менее 1000 рублей.';
   } else if (typeHousingSelect.value === 'house') {
     priceInput.min = 5000;
     priceInput.placeholder = 5000;
-    priceSelectMessage = 'Минимальная стоимость аренды дома не менее 5000 рублей.';
   } else if (typeHousingSelect.value === 'palace') {
     priceInput.min = 10000;
     priceInput.placeholder = 10000;
-    priceSelectMessage = 'Минимальная стоимость аренды дворца не менее 10000 рублей.';
   }
   priceInput.setCustomValidity(priceSelectMessage);
 };
