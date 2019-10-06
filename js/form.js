@@ -79,11 +79,11 @@
   timeOutSelect.addEventListener('change', updateTimeIn);
 
   window.form = {
-    mapFilters: mapFilters,
-    adForm: adForm,
     mapFiltersSelects: mapFiltersSelects,
     adFormFieldsets: adFormFieldsets,
     enable: function () {
+      adForm.classList.remove('ad-form--disabled');
+
       enableElements(adFormFieldsets);
       enableElements(mapFiltersSelects);
     },

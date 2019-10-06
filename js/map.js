@@ -19,15 +19,12 @@
     };
   };
 
-  document.addEventListener('DOMContentLoaded', function () {
-    window.form.disable();
-    window.form.fillInAddress(getCoordinatesPinMain());
-  }, false);
+  window.form.disable();
+  window.form.fillInAddress(getCoordinatesPinMain());
 
 
   var pageActivate = function () {
-    window.map.mapBlock.classList.remove('map--faded');
-    window.form.adForm.classList.remove('ad-form--disabled');
+    mapBlock.classList.remove('map--faded');
 
     window.map.renderPins(window.data);
 
@@ -54,7 +51,7 @@
     },
     renderCard: function (arrayObj) {
       var cardElement = window.card.generateCardElement(arrayObj);
-      mapBlock.insertBefore(cardElement, window.form.mapFilters);
+      mapBlock.appendChild(cardElement);
     }
   };
 })();
