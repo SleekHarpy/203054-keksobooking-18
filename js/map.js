@@ -1,8 +1,47 @@
 'use strict';
 
 (function () {
+  var MAP_PIN_MAIN_WIDTH = 65;
+  var MAP_PIN_MAIN_HEIGHT = 65 + 22;
+  var ENTER_KEYCODE = 13;
+  var SPACEBAR_KEYCODE = 32;
+
   var mapBlock = document.querySelector('.map');
+  var pinMain = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
+
+  var getCoordinatesPinMain = function () {
+    var x = Math.round((Number(pinMain.style.left.replace(/[^\d]/g, '')) + (MAP_PIN_MAIN_WIDTH / 2)));
+    var y = Math.round((Number(pinMain.style.top.replace(/[^\d]/g, '')) + MAP_PIN_MAIN_HEIGHT));
+    return {
+      x: x,
+      y: y
+    };
+  };
+
+  document.addEventListener('DOMContentLoaded', function () {
+    window.form.disable();
+    window.form.fillInAddress(getCoordinatesPinMain());
+  }, false);
+
+
+  var pageActivate = function () {
+    window.map.mapBlock.classList.remove('map--faded');
+    window.form.adForm.classList.remove('ad-form--disabled');
+
+    window.map.renderPins(window.data);
+
+    window.form.enable();
+  };
+
+  var onPageActivatePress = function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
+      pageActivate();
+    }
+  };
+
+  pinMain.addEventListener('mousedown', pageActivate);
+  pinMain.addEventListener('keydown', onPageActivatePress);
 
   window.map = {
     mapBlock: mapBlock,
@@ -18,5 +57,4 @@
       mapBlock.insertBefore(cardElement, window.form.mapFilters);
     }
   };
-
 })();

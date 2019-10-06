@@ -57,9 +57,5 @@
     return dataArray;
   };
 
-  var dataArray = generateData();
-
-  window.data = {
-    dataArray: dataArray
-  };
+  window.data = generateData();
 })();

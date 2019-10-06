@@ -1,24 +1,10 @@
 'use strict';
 
 (function () {
-  var MAP_PIN_MAIN_WIDTH = 65;
-  var MAP_PIN_MAIN_HEIGHT = 65 + 22;
-  var ENTER_KEYCODE = 13;
-  var SPACEBAR_KEYCODE = 32;
-
   var mapFilters = document.querySelector('.map__filters-container');
-
-  var pinMain = document.querySelector('.map__pin--main');
   var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
-
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
-
-  var disableElements = function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = true;
-    }
-  };
 
   var enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -26,46 +12,11 @@
     }
   };
 
-  disableElements(adFormFieldsets);
-  disableElements(mapFiltersSelects);
-
-  var pageActivate = function () {
-    window.map.mapBlock.classList.remove('map--faded');
-    adForm.classList.remove('ad-form--disabled');
-
-    window.map.renderPins(window.data.dataArray);
-
-    enableElements(adFormFieldsets);
-    enableElements(mapFiltersSelects);
-  };
-
-  var onPageActivatePress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
-      pageActivate();
+  var disableElements = function (elements) {
+    for (var i = 0; i < elements.length; i++) {
+      elements[i].disabled = true;
     }
   };
-
-  pinMain.addEventListener('mousedown', pageActivate);
-  pinMain.addEventListener('keydown', onPageActivatePress);
-
-  var getCoordinatesPinMain = function () {
-    var x = Math.round((Number(pinMain.style.left.replace(/[^\d]/g, '')) + (MAP_PIN_MAIN_WIDTH / 2)));
-    var y = Math.round((Number(pinMain.style.top.replace(/[^\d]/g, '')) + MAP_PIN_MAIN_HEIGHT));
-    return {
-      x: x,
-      y: y
-    };
-  };
-
-  var pinMainAddress = getCoordinatesPinMain();
-
-  var fillInAddress = function (pinCoord) {
-    var address = document.querySelector('#address');
-
-    address.value = pinCoord.x + ', ' + pinCoord.y;
-  };
-
-  fillInAddress(pinMainAddress);
 
   var roomNumber = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
@@ -128,6 +79,21 @@
   timeOutSelect.addEventListener('change', updateTimeIn);
 
   window.form = {
-    mapFilters: mapFilters
+    mapFilters: mapFilters,
+    adForm: adForm,
+    mapFiltersSelects: mapFiltersSelects,
+    adFormFieldsets: adFormFieldsets,
+    enable: function () {
+      enableElements(adFormFieldsets);
+      enableElements(mapFiltersSelects);
+    },
+    disable: function () {
+      disableElements(adFormFieldsets);
+      disableElements(mapFiltersSelects);
+    },
+    fillInAddress: function (pinCoord) {
+      var address = document.querySelector('#address');
+      address.value = pinCoord.x + ', ' + pinCoord.y;
+    }
   };
 })();
