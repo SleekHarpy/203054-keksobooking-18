@@ -11,7 +11,7 @@
   var pinMain = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
-  var getCoordinatesPinMain = function (isFaded) {
+  var getCoordinatesPinMain = function () {
     var x = Math.round((Number(pinMain.style.left.replace(/[^\d]/g, '')) + (MAP_PIN_MAIN_WIDTH / 2)));
     var y = Math.round((Number(pinMain.style.top.replace(/[^\d]/g, '')) + MAP_PIN_MAIN_HEIGHT + MAP_PIN_MAIN_ARROW));
     return {
