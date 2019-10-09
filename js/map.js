@@ -15,6 +15,8 @@
   var pinMain = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
+  window.form.disable();
+
   var getCoordinatesPinMain = function (isFaded) {
     var x = Number(pinMain.style.left.replace(/[^\d]/g, ''));
     var y = Number(pinMain.style.top.replace(/[^\d]/g, ''));
@@ -86,8 +88,6 @@
   };
 
   pinMain.addEventListener('mousedown', onPinMainMove);
-
-  window.form.disable();
 
   var pageActivate = function () {
     mapBlock.classList.remove('map--faded');
