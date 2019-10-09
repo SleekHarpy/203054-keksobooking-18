@@ -2,6 +2,7 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   var createFeatures = function (dataFe) {
@@ -21,6 +22,7 @@
 
     for (var i = 0; i < dataPh.offer.photos.length; i++) {
       var photoElement = document.createElement('img');
+
       photoElement.classList.add('popup__photo');
       photoElement.src = dataPh.offer.photos[i];
       photoElement.width = 45;
@@ -34,7 +36,9 @@
 
   window.card = {
     generateCardElement: function (obj) {
+
       var cardElement = cardTemplate.cloneNode(true);
+      var closePopupButton = cardElement.querySelector('.popup__close');
 
       cardElement.querySelector('.popup__title').textContent = obj.offer.title;
       cardElement.querySelector('.popup__text--address').textContent = obj.offer.address;
@@ -59,8 +63,6 @@
       cardElement.querySelector('.popup__photos').appendChild(createPhoto(obj));
 
       cardElement.querySelector('.popup__avatar').src = obj.author.avatar;
-
-      var closePopupButton = cardElement.querySelector('.popup__close');
 
       var onPopupEscPress = function (evt) {
         if (evt.keyCode === ESC_KEYCODE) {

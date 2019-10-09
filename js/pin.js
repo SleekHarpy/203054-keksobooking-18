@@ -15,9 +15,11 @@
 
       var pinOpenCard = function () {
         var popup = document.querySelector('.popup');
+
         if (popup) {
           popup.remove();
         }
+
         window.map.renderCard(obj);
       };
 
