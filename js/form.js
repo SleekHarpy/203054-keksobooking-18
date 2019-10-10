@@ -68,12 +68,11 @@
     timeInSelect.value = evt.target.value;
   };
 
-  timeOutSelect.addEventListener('change', updateTimeIn);
-
   var updateTimeOut = function (evt) {
     timeOutSelect.value = evt.target.value;
   };
 
+  timeOutSelect.addEventListener('change', updateTimeIn);
   timeInSelect.addEventListener('change', updateTimeOut);
 
   window.form = {
