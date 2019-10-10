@@ -12,12 +12,6 @@
   var timeInSelect = adForm.querySelector('#timein');
   var timeOutSelect = adForm.querySelector('#timeout');
 
-  validateGuestNumber();
-
-  roomNumber.addEventListener('change', validateGuestNumber);
-  capacity.addEventListener('change', validateGuestNumber);
-
-
   var enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].disabled = false;
@@ -44,6 +38,11 @@
     capacity.setCustomValidity(roomToGuestMessage);
   }
 
+  validateGuestNumber();
+
+  roomNumber.addEventListener('change', validateGuestNumber);
+  capacity.addEventListener('change', validateGuestNumber);
+
   var validateHousingPrice = function () {
     if (typeHousingSelect.value === 'bungalo') {
       priceInput.min = 0;
@@ -69,12 +68,13 @@
     timeInSelect.value = evt.target.value;
   };
 
+  timeOutSelect.addEventListener('change', updateTimeIn);
+
   var updateTimeOut = function (evt) {
     timeOutSelect.value = evt.target.value;
   };
 
   timeInSelect.addEventListener('change', updateTimeOut);
-  timeOutSelect.addEventListener('change', updateTimeIn);
 
   window.form = {
     enable: function () {
