@@ -5,6 +5,12 @@
   var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
+  var roomNumber = document.querySelector('#room_number');
+  var capacity = document.querySelector('#capacity');
+  var typeHousingSelect = adForm.querySelector('#type');
+  var priceInput = adForm.querySelector('#price');
+  var timeInSelect = adForm.querySelector('#timein');
+  var timeOutSelect = adForm.querySelector('#timeout');
 
   var enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -18,11 +24,9 @@
     }
   };
 
-  var roomNumber = document.querySelector('#room_number');
-  var capacity = document.querySelector('#capacity');
-
   function validateGuestNumber() {
     var roomToGuestMessage = '';
+
     if (roomNumber.value !== '100' && capacity.value > roomNumber.value) {
       roomToGuestMessage = 'Извините, но количество гостей не должно превышать ' + roomNumber.value + '.';
     } else if (roomNumber.value !== '100' && capacity.value === '0') {
@@ -30,17 +34,14 @@
     } else if (roomNumber.value === '100' && capacity.value !== '0') {
       roomToGuestMessage = 'Извините, но аппартаменты на 100 комнат не предназначены для гостей.';
     }
+
     capacity.setCustomValidity(roomToGuestMessage);
   }
 
   validateGuestNumber();
 
   roomNumber.addEventListener('change', validateGuestNumber);
-
   capacity.addEventListener('change', validateGuestNumber);
-
-  var typeHousingSelect = adForm.querySelector('#type');
-  var priceInput = adForm.querySelector('#price');
 
   var validateHousingPrice = function () {
     if (typeHousingSelect.value === 'bungalo') {
@@ -61,11 +62,7 @@
   validateHousingPrice();
 
   typeHousingSelect.addEventListener('change', validateHousingPrice);
-
   priceInput.addEventListener('change', validateHousingPrice);
-
-  var timeInSelect = adForm.querySelector('#timein');
-  var timeOutSelect = adForm.querySelector('#timeout');
 
   var updateTimeIn = function (evt) {
     timeInSelect.value = evt.target.value;
@@ -75,12 +72,10 @@
     timeOutSelect.value = evt.target.value;
   };
 
-  timeInSelect.addEventListener('change', updateTimeOut);
   timeOutSelect.addEventListener('change', updateTimeIn);
+  timeInSelect.addEventListener('change', updateTimeOut);
 
   window.form = {
-    mapFiltersSelects: mapFiltersSelects,
-    adFormFieldsets: adFormFieldsets,
     enable: function () {
       adForm.classList.remove('ad-form--disabled');
 
@@ -93,6 +88,7 @@
     },
     fillInAddress: function (pinCoord) {
       var address = document.querySelector('#address');
+
       address.value = pinCoord.x + ', ' + pinCoord.y;
     }
   };
