@@ -92,7 +92,11 @@
   var pageActivate = function () {
     mapBlock.classList.remove('map--faded');
 
-    window.map.renderPins(window.data);
+    // window.map.renderPins(window.data);
+
+    window.load(function (data) {
+      window.map.renderPins(data);
+    });
 
     window.form.enable();
 
