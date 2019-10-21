@@ -8,5 +8,5 @@
     document.querySelector('main').appendChild(errorElement);
   };
 
-  window.message = showErrorMessage;
+  window.showErrorMessage = showErrorMessage;
 })();

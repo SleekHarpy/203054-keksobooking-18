@@ -101,11 +101,11 @@
   var pageActivate = function () {
     mapBlock.classList.remove('map--faded');
 
-    // window.map.renderPins(window.data);
-
     window.load(function (data) {
       renderPins(data);
-    }, window.message);
+    }, function () {
+      window.showErrorMessage();
+    });
 
     window.form.enable();
 
