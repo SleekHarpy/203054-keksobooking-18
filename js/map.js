@@ -89,14 +89,23 @@
 
   pinMain.addEventListener('mousedown', onPinMainMove);
 
+  var renderPins = function (arrayObj) {
+    var fragment = document.createDocumentFragment();
+
+    for (var i = 0; i < arrayObj.length; i++) {
+      fragment.appendChild(window.pin.generatePinElement(arrayObj[i]));
+    }
+    mapPins.appendChild(fragment);
+  };
+
   var pageActivate = function () {
     mapBlock.classList.remove('map--faded');
 
     // window.map.renderPins(window.data);
 
     window.load(function (data) {
-      window.map.renderPins(data);
-    });
+      renderPins(data);
+    }, window.message);
 
     window.form.enable();
 
@@ -113,15 +122,6 @@
   pinMain.addEventListener('keydown', onPageActivatePress);
 
   window.map = {
-    renderPins: function (arrayObj) {
-      var fragment = document.createDocumentFragment();
-
-      for (var i = 0; i < arrayObj.length; i++) {
-        fragment.appendChild(window.pin.generatePinElement(arrayObj[i]));
-      }
-      mapPins.appendChild(fragment);
-    },
-
     renderCard: function (arrayObj) {
       var cardElement = window.card.generateCardElement(arrayObj);
 
