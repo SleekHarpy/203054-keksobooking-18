@@ -4,6 +4,8 @@
   var MAP_PIN_MAIN_WIDTH = 65;
   var MAP_PIN_MAIN_HEIGHT = 65;
   var MAP_PIN_MAIN_ARROW = 22;
+  var MAP_PIN_X = 570;
+  var MAP_PIN_Y = 375;
   var MIN_X = 0;
   var MAX_X = 1200;
   var MIN_Y = 130;
@@ -125,8 +127,8 @@
     pageDeactivate: function () {
       mapBlock.classList.add('map--faded');
 
-      pinMain.style.top = 375 + 'px';
-      pinMain.style.left = 570 + 'px';
+      pinMain.style.top = MAP_PIN_Y + 'px';
+      pinMain.style.left = MAP_PIN_X + 'px';
 
       var mapPin = document.querySelectorAll('.map__pin');
       var pins = function () {
