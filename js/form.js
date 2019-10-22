@@ -75,6 +75,17 @@
   timeOutSelect.addEventListener('change', updateTimeIn);
   timeInSelect.addEventListener('change', updateTimeOut);
 
+  adForm.addEventListener('submit', function (evt) {
+    window.upload(new FormData(adForm), function () {
+      adForm.reset();
+      window.map.pageDeactivate();
+      window.message.showSuccessMessage();
+    }, function () {
+      window.message.showErrorMessage();
+    });
+    evt.preventDefault();
+  });
+
   window.form = {
     enable: function () {
       adForm.classList.remove('ad-form--disabled');
@@ -83,6 +94,8 @@
       enableElements(mapFiltersSelects);
     },
     disable: function () {
+      adForm.classList.add('ad-form--disabled');
+
       disableElements(adFormFieldsets);
       disableElements(mapFiltersSelects);
     },

@@ -104,7 +104,7 @@
     window.load(function (data) {
       renderPins(data);
     }, function () {
-      window.showErrorMessage();
+      window.message.showErrorMessage();
     });
 
     window.form.enable();
@@ -122,6 +122,31 @@
   pinMain.addEventListener('keydown', onPageActivatePress);
 
   window.map = {
+    pageDeactivate: function () {
+      mapBlock.classList.add('map--faded');
+
+      pinMain.style.top = 375 + 'px';
+      pinMain.style.left = 570 + 'px';
+
+      var mapPin = document.querySelectorAll('.map__pin');
+      var pins = function () {
+        for (var i = 1; i < mapPin.length; i++) {
+          mapPin[i].remove();
+        }
+      };
+
+      pins();
+
+      var popup = document.querySelector('.popup');
+
+      if (popup) {
+        popup.remove();
+      }
+
+      window.form.disable();
+
+      window.form.fillInAddress(getCoordinatesPinMain(true));
+    },
     renderCard: function (arrayObj) {
       var cardElement = window.card.generateCardElement(arrayObj);
 
