@@ -123,12 +123,16 @@
   pinMain.addEventListener('mousedown', pageActivate);
   pinMain.addEventListener('keydown', onPageActivatePress);
 
+  var resetPinCoords = function () {
+    pinMain.style.top = MAP_PIN_Y + 'px';
+    pinMain.style.left = MAP_PIN_X + 'px';
+  };
+
   window.map = {
     disable: function () {
       mapBlock.classList.add('map--faded');
 
-      pinMain.style.top = MAP_PIN_Y + 'px';
-      pinMain.style.left = MAP_PIN_X + 'px';
+      resetPinCoords();
 
       var mapPin = document.querySelectorAll('.map__pin');
       var pins = function () {
