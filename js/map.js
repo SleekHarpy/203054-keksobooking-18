@@ -124,7 +124,7 @@
   pinMain.addEventListener('keydown', onPageActivatePress);
 
   window.map = {
-    pageDeactivate: function () {
+    disable: function () {
       mapBlock.classList.add('map--faded');
 
       pinMain.style.top = MAP_PIN_Y + 'px';
