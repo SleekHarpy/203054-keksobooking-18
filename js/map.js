@@ -128,20 +128,20 @@
     pinMain.style.left = MAP_PIN_X + 'px';
   };
 
+  var deletePinElements = function () {
+    var mapPinElements = document.querySelectorAll('.map__pin');
+    for (var i = 1; i < mapPinElements.length; i++) {
+      mapPinElements[i].remove();
+    }
+  };
+
   window.map = {
     disable: function () {
       mapBlock.classList.add('map--faded');
 
       resetPinCoords();
 
-      var mapPin = document.querySelectorAll('.map__pin');
-      var pins = function () {
-        for (var i = 1; i < mapPin.length; i++) {
-          mapPin[i].remove();
-        }
-      };
-
-      pins();
+      deletePinElements();
 
       var popup = document.querySelector('.popup');
 
