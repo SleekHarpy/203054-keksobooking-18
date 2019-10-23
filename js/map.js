@@ -128,10 +128,19 @@
     pinMain.style.left = MAP_PIN_X + 'px';
   };
 
-  var deletePinElements = function () {
+  var removePinElements = function () {
     var mapPinElements = document.querySelectorAll('.map__pin');
+
     for (var i = 1; i < mapPinElements.length; i++) {
       mapPinElements[i].remove();
+    }
+  };
+
+  var removePopup = function () {
+    var popup = document.querySelector('.popup');
+
+    if (popup) {
+      popup.remove();
     }
   };
 
@@ -141,13 +150,9 @@
 
       resetPinCoords();
 
-      deletePinElements();
+      removePinElements();
 
-      var popup = document.querySelector('.popup');
-
-      if (popup) {
-        popup.remove();
-      }
+      removePopup();
 
       window.form.disable();
 
