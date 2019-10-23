@@ -19,27 +19,7 @@
 
   window.form.disable();
 
-  var getCoordinatesPinMain = function (isFaded) {
-    var x = Number(pinMain.style.left.replace(/[^\d]/g, ''));
-    var y = Number(pinMain.style.top.replace(/[^\d]/g, ''));
-    if (isFaded) {
-      x = Math.round((x + MAP_PIN_MAIN_WIDTH / 2));
-      y = Math.round((y + MAP_PIN_MAIN_HEIGHT / 2));
-      return {
-        x: x,
-        y: y
-      };
-    } else {
-      x = Math.round((x + MAP_PIN_MAIN_WIDTH / 2));
-      y = Math.round((y + MAP_PIN_MAIN_HEIGHT + MAP_PIN_MAIN_ARROW));
-      return {
-        x: x,
-        y: y
-      };
-    }
-  };
-
-  window.form.fillInAddress(getCoordinatesPinMain(true));
+  // window.form.fillInAddress(window.map.getCoordinatesPinMain(true));
 
   var onPinMainMove = function (evt) {
     evt.preventDefault();
@@ -75,7 +55,7 @@
         pinMain.style.top = currentCoords.y + 'px';
       }
 
-      window.form.fillInAddress(getCoordinatesPinMain());
+      window.form.fillInAddress(window.map.getCoordinatesPinMain());
     };
 
     var onMouseUp = function (upEvt) {
@@ -111,7 +91,7 @@
 
     window.form.enable();
 
-    window.form.fillInAddress(getCoordinatesPinMain(false));
+    window.form.fillInAddress(window.map.getCoordinatesPinMain(false));
   };
 
   var onPageActivatePress = function (evt) {
@@ -149,19 +129,32 @@
       mapBlock.classList.add('map--faded');
 
       resetPinCoords();
-
       removePinElements();
-
       removePopup();
-
-      window.form.disable();
-
-      window.form.fillInAddress(getCoordinatesPinMain(true));
     },
     renderCard: function (arrayObj) {
       var cardElement = window.card.generateCardElement(arrayObj);
 
       mapBlock.appendChild(cardElement);
+    },
+    getCoordinatesPinMain: function (isFaded) {
+      var x = Number(pinMain.style.left.replace(/[^\d]/g, ''));
+      var y = Number(pinMain.style.top.replace(/[^\d]/g, ''));
+      if (isFaded) {
+        x = Math.round((x + MAP_PIN_MAIN_WIDTH / 2));
+        y = Math.round((y + MAP_PIN_MAIN_HEIGHT / 2));
+        return {
+          x: x,
+          y: y
+        };
+      } else {
+        x = Math.round((x + MAP_PIN_MAIN_WIDTH / 2));
+        y = Math.round((y + MAP_PIN_MAIN_HEIGHT + MAP_PIN_MAIN_ARROW));
+        return {
+          x: x,
+          y: y
+        };
+      }
     }
   };
 })();

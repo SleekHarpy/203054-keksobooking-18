@@ -77,8 +77,8 @@
 
   adForm.addEventListener('submit', function (evt) {
     window.server.upload(new FormData(adForm), function () {
-      adForm.reset();
       window.map.disable();
+      window.form.disable();
       window.message.showSuccessMessage();
     }, function () {
       window.message.showErrorMessage();
@@ -95,9 +95,12 @@
     },
     disable: function () {
       adForm.classList.add('ad-form--disabled');
+      adForm.reset();
 
       disableElements(adFormFieldsets);
       disableElements(mapFiltersSelects);
+
+      window.form.fillInAddress(window.map.getCoordinatesPinMain(true));
     },
     fillInAddress: function (pinCoord) {
       var address = document.querySelector('#address');
