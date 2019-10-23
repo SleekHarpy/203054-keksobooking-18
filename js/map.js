@@ -17,10 +17,6 @@
   var pinMain = document.querySelector('.map__pin--main');
   var mapPins = document.querySelector('.map__pins');
 
-  window.form.disable();
-
-  // window.form.fillInAddress(window.map.getCoordinatesPinMain(true));
-
   var onPinMainMove = function (evt) {
     evt.preventDefault();
 
@@ -81,14 +77,15 @@
   };
 
   var pageActivate = function () {
+    if (mapBlock.classList.contains('map--faded')) {
+      window.server.load(function (data) {
+        renderPins(data);
+      }, function () {
+        window.message.showErrorMessage();
+      });
+    }
+
     mapBlock.classList.remove('map--faded');
-
-    window.server.load(function (data) {
-      renderPins(data);
-    }, function () {
-      window.message.showErrorMessage();
-    });
-
     window.form.enable();
 
     window.form.fillInAddress(window.map.getCoordinatesPinMain(false));
