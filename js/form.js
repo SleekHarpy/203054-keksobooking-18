@@ -76,7 +76,7 @@
   timeInSelect.addEventListener('change', updateTimeOut);
 
   adForm.addEventListener('submit', function (evt) {
-    window.upload(new FormData(adForm), function () {
+    window.server.upload(new FormData(adForm), function () {
       adForm.reset();
       window.map.disable();
       window.message.showSuccessMessage();

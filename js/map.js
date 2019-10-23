@@ -103,7 +103,7 @@
   var pageActivate = function () {
     mapBlock.classList.remove('map--faded');
 
-    window.load(function (data) {
+    window.server.load(function (data) {
       renderPins(data);
     }, function () {
       window.message.showErrorMessage();
