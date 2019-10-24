@@ -18,13 +18,38 @@
     }
   };
 
+  var enableForm = function () {
+    adForm.classList.remove('ad-form--disabled');
+
+    enableElements(adFormFieldsets);
+    enableElements(mapFiltersSelects);
+  };
+
   var disableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
       elements[i].disabled = true;
     }
   };
 
-  function validateGuestNumber() {
+  var fillInAddress = function (pinCoord) {
+    var address = document.querySelector('#address');
+
+    address.value = pinCoord.x + ', ' + pinCoord.y;
+  };
+
+  var disableForm = function () {
+    adForm.classList.add('ad-form--disabled');
+    adForm.reset();
+
+    disableElements(adFormFieldsets);
+    disableElements(mapFiltersSelects);
+
+    fillInAddress(window.map.getCoordinatesPinMain(true));
+  };
+
+  disableForm();
+
+  var validateGuestNumber = function () {
     var roomToGuestMessage = '';
 
     if (roomNumber.value !== '100' && capacity.value > roomNumber.value) {
@@ -36,7 +61,7 @@
     }
 
     capacity.setCustomValidity(roomToGuestMessage);
-  }
+  };
 
   validateGuestNumber();
 
@@ -75,21 +100,20 @@
   timeOutSelect.addEventListener('change', updateTimeIn);
   timeInSelect.addEventListener('change', updateTimeOut);
 
+  adForm.addEventListener('submit', function (evt) {
+    window.server.upload(new FormData(adForm), function () {
+      window.map.disable();
+      window.form.disable();
+      window.message.showSuccessMessage();
+    }, function () {
+      window.message.showErrorMessage();
+    });
+    evt.preventDefault();
+  });
+
   window.form = {
-    enable: function () {
-      adForm.classList.remove('ad-form--disabled');
-
-      enableElements(adFormFieldsets);
-      enableElements(mapFiltersSelects);
-    },
-    disable: function () {
-      disableElements(adFormFieldsets);
-      disableElements(mapFiltersSelects);
-    },
-    fillInAddress: function (pinCoord) {
-      var address = document.querySelector('#address');
-
-      address.value = pinCoord.x + ', ' + pinCoord.y;
-    }
+    enable: enableForm,
+    disable: disableForm,
+    fillInAddress: fillInAddress
   };
 })();

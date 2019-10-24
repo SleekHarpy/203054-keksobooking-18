@@ -35,6 +35,8 @@
   };
 
   window.card = {
+    ESC_KEYCODE: ESC_KEYCODE,
+
     generateCardElement: function (obj) {
 
       var cardElement = cardTemplate.cloneNode(true);
