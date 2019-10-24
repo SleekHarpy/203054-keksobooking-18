@@ -3,14 +3,16 @@
 (function () {
   var URL_UPLOAD = 'https://js.dump.academy/keksobooking';
   var URL_LOAD = 'https://js.dump.academy/keksobooking/data';
+  var HTTP_SUCCESS_CODE = 200;
 
   var generateXhrObject = function (onSuccess, onError, methot, url, data) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === 200) {
+      if (xhr.status === HTTP_SUCCESS_CODE) {
         onSuccess(xhr.response);
+        window.server.downloadPins = xhr.response;
       } else {
         onError();
       }

@@ -78,8 +78,8 @@
 
   var pageActivate = function () {
     if (mapBlock.classList.contains('map--faded')) {
-      window.server.load(function (data) {
-        renderPins(data);
+      window.server.load(function () {
+        renderPins(window.dataPins);
       }, function () {
         window.message.showErrorMessage();
       });
@@ -122,6 +122,9 @@
   };
 
   window.map = {
+    renderPins: renderPins,
+    removePinElements: removePinElements,
+    removePopup: removePopup,
     disable: function () {
       mapBlock.classList.add('map--faded');
 
