@@ -5,31 +5,26 @@
 
   var mapFilters = document.querySelector('.map__filters');
   var housingType = mapFilters.querySelector('#housing-type');
-  var housingRooms = mapFilters.querySelector('#housing-rooms');
 
-  var getData = function (data) {
-    var changeDataPins = function () {
-      var dataPins = data.filter(function (pins) {
-        return pins.offer.type === housingType.value || housingType.value === 'any';
-      }).filter(function (pins) {
-        return pins.offer.rooms === housingRooms.value || housingRooms.value === 'any';
-      }).slice(0, QUANTITY_PINS);
+  window.filters = {
+    getData: function (data) {
+      var changeDataPins = function () {
+        var dataPins = data.filter(function (pins) {
+          return pins.offer.type === housingType.value || housingType.value === 'any';
+        }).slice(0, QUANTITY_PINS);
 
-      return dataPins;
-    };
+        return dataPins;
+      };
 
-    var onFiltersChange = function () {
-      window.map.removePopup();
-      window.map.removePinElements();
-      window.map.renderPins(changeDataPins());
-    };
+      var onFiltersChange = function () {
+        window.map.removePopup();
+        window.map.removePinElements();
+        window.map.renderPins(changeDataPins());
+      };
 
-    housingType.addEventListener('change', onFiltersChange);
-    housingRooms.addEventListener('change', onFiltersChange);
+      housingType.addEventListener('change', onFiltersChange);
 
-    return changeDataPins();
+      return changeDataPins();
+    }
   };
-
-  window.filters = getData;
-
 })();

@@ -79,8 +79,8 @@
   var pageActivate = function () {
     if (mapBlock.classList.contains('map--faded')) {
       window.server.load(function (data) {
-        window.filters(data);
-        renderPins(window.filters(data));
+        window.filters.getData(data);
+        renderPins(window.filters.getData(data));
       }, function () {
         window.message.showErrorMessage();
       });
