@@ -80,7 +80,6 @@
     if (mapBlock.classList.contains('map--faded')) {
       window.server.load(function (data) {
         window.filters(data);
-        console.log(window.filters(data));
         renderPins(window.filters(data));
       }, function () {
         window.message.showErrorMessage();
