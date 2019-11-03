@@ -6,30 +6,26 @@
   var mapFilters = document.querySelector('.map__filters');
   var housingType = mapFilters.querySelector('#housing-type');
 
-  window.server.load(function (data) {
-    var dataPins = [];
+  var getData = function (data) {
     var changeDataPins = function () {
-      dataPins.length = 0;
-      for (var i = 0; i < data.length; i++) {
-        if (data[i].offer.type === housingType.value || housingType.value === 'any') {
-          dataPins.push(data[i]);
-        }
-        if (dataPins.length > QUANTITY_PINS) {
-          dataPins.length = QUANTITY_PINS;
-        }
-      }
+      var dataPins = data.filter(function (pins) {
+        return pins.offer.type === housingType.value || housingType.value === 'any';
+      }).slice(0, QUANTITY_PINS);
+
+      return dataPins;
     };
-    changeDataPins();
 
     var onFiltersChange = function () {
       window.map.removePopup();
       window.map.removePinElements();
-      changeDataPins();
-      window.map.renderPins(dataPins);
+      window.map.renderPins(changeDataPins());
     };
 
     housingType.addEventListener('change', onFiltersChange);
 
-    window.dataPins = dataPins;
-  });
+    return changeDataPins();
+  };
+
+  window.filters = getData;
+
 })();
