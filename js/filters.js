@@ -10,7 +10,7 @@
   var housingRooms = mapFilters.querySelector('#housing-rooms');
   var housingGuests = mapFilters.querySelector('#housing-guests');
   var housingPrice = mapFilters.querySelector('#housing-price');
-
+  var checkboxFeatures = Array.from(mapFilters.querySelectorAll('.map__checkbox'));
 
   window.filters = {
     getData: function (data) {
@@ -36,15 +36,34 @@
         return result;
       };
 
+      function isSubArray(subArray, array) {
+        return subArray.every(function (value) {
+          return array.includes(value);
+        });
+      }
+
+      var getCheckedFeatures = function (elem) {
+        var dataFeatures = checkboxFeatures.filter(function (input) {
+          return input.checked;
+        }).map(function (input) {
+          return input.value;
+        });
+
+        return isSubArray(dataFeatures, elem.offer.features);
+      };
+
+
       var changeDataPins = function () {
         var dataPins = data.filter(function (pins) {
           return pins.offer.type === housingType.value || housingType.value === 'any';
-        }).filter(function (rooms) {
-          return rooms.offer.rooms === Number(housingRooms.value) || housingRooms.value === 'any';
-        }).filter(function (guests) {
-          return guests.offer.guests === Number(housingGuests.value) || housingGuests.value === 'any';
-        }).filter(function (price) {
-          return isMatchPrice(price);
+        }).filter(function (pins) {
+          return pins.offer.rooms === Number(housingRooms.value) || housingRooms.value === 'any';
+        }).filter(function (pins) {
+          return pins.offer.guests === Number(housingGuests.value) || housingGuests.value === 'any';
+        }).filter(function (pins) {
+          return isMatchPrice(pins);
+        }).filter(function (pins) {
+          return getCheckedFeatures(pins);
         }).slice(0, QUANTITY_PINS);
 
         return dataPins;
