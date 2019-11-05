@@ -15,11 +15,15 @@
   window.filters = {
     getData: function (data) {
 
-      var isMatchPrice = function (elem) {
+      var isMatchedTypeCount = function (adInfo) {
+        return adInfo.offer.type === housingType.value || housingType.value === 'any';
+      };
+
+      var isMatchedPrice = function (elem) {
         var result = false;
 
         switch (housingPrice.value) {
-          case 'any':
+          default:
             result = true;
             break;
           case 'low':
@@ -36,13 +40,21 @@
         return result;
       };
 
+      var isMatchedRoomCount = function (adInfo) {
+        return adInfo.offer.rooms === Number(housingRooms.value) || housingRooms.value === 'any';
+      };
+
+      var isMatchedGuestsCount = function (adInfo) {
+        return adInfo.offer.guests === Number(housingGuests.value) || housingGuests.value === 'any';
+      };
+
       function isSubArray(subArray, array) {
         return subArray.every(function (value) {
           return array.includes(value);
         });
       }
 
-      var getCheckedFeatures = function (elem) {
+      var isMatchedFeatures = function (elem) {
         var dataFeatures = checkboxFeatures.filter(function (input) {
           return input.checked;
         }).map(function (input) {
@@ -54,26 +66,26 @@
 
 
       var changeDataPins = function () {
-        var dataPins = data.filter(function (pins) {
-          return pins.offer.type === housingType.value || housingType.value === 'any';
-        }).filter(function (pins) {
-          return pins.offer.rooms === Number(housingRooms.value) || housingRooms.value === 'any';
-        }).filter(function (pins) {
-          return pins.offer.guests === Number(housingGuests.value) || housingGuests.value === 'any';
-        }).filter(function (pins) {
-          return isMatchPrice(pins);
-        }).filter(function (pins) {
-          return getCheckedFeatures(pins);
+        var dataPins = data.filter(function (adInfo) {
+          return isMatchedTypeCount(adInfo);
+        }).filter(function (adInfo) {
+          return isMatchedRoomCount(adInfo);
+        }).filter(function (adInfo) {
+          return isMatchedGuestsCount(adInfo);
+        }).filter(function (adInfo) {
+          return isMatchedPrice(adInfo);
+        }).filter(function (adInfo) {
+          return isMatchedFeatures(adInfo);
         }).slice(0, QUANTITY_PINS);
 
         return dataPins;
       };
 
-      var onFiltersChange = function () {
+      var onFiltersChange = window.debounce(function () {
         window.map.removePopup();
         window.map.removePinElements();
         window.map.renderPins(changeDataPins());
-      };
+      });
 
       mapFilters.addEventListener('change', onFiltersChange);
 
