@@ -11,6 +11,7 @@
   var priceInput = adForm.querySelector('#price');
   var timeInSelect = adForm.querySelector('#timein');
   var timeOutSelect = adForm.querySelector('#timeout');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
 
   var enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -39,6 +40,7 @@
 
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
+    window.cleanChooser();
     adForm.reset();
 
     disableElements(adFormFieldsets);
@@ -110,6 +112,8 @@
     });
     evt.preventDefault();
   });
+
+  adFormResetButton.addEventListener('click', window.cleanChooser);
 
   window.form = {
     enable: enableForm,
