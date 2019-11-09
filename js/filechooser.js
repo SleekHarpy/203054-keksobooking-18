@@ -11,36 +11,41 @@
   var fileChooserImage = document.querySelector('#images');
   var previewImageContainer = document.querySelector('.ad-form__photo-container');
   var previewImageBox = document.querySelector('.ad-form__photo');
-  var previewImage = document.querySelector('.ad-form__photo img');
+  var firstLoad = true;
 
-  var createImgContainer = function () {
+  var updateAvatar = function (src) {
+    previewAvatar.src = src;
+  };
+
+
+  var addImage = function (src) {
+    if (firstLoad) {
+      previewImageBox.remove();
+      firstLoad = false;
+    }
+
+    var adFormPhoto = createAfFormPhoto(src);
+    previewImageContainer.appendChild(adFormPhoto);
+  };
+
+  var createAfFormPhoto = function (src) {
     var previewDiv = document.createElement('div');
     previewImageContainer.appendChild(previewDiv);
     previewDiv.classList.add('ad-form__photo');
+
+    var previewImage = document.createElement('img');
+    previewImage.src = src;
+    previewImage.width = IMAGE_WIDTH;
+    previewImage.height = IMAGE_HEIGTH;
+    previewImage.style.margin = IMAGE_MARGIN;
+    previewDiv.appendChild(previewImage);
+
     return previewDiv;
   };
 
-  var renderElements = function (content) {
-    var createImgElement = function () {
-      previewImage = document.createElement('img');
-      previewImage.src = content.result;
-      previewImage.width = IMAGE_WIDTH;
-      previewImage.height = IMAGE_HEIGTH;
-      previewImage.style.margin = IMAGE_MARGIN;
 
-      return previewImage;
-    };
-
-    if (!previewImage) {
-      previewImageBox.appendChild(createImgElement());
-    } else {
-      createImgContainer().appendChild(createImgElement());
-    }
-  };
-
-
-  var onChooseFile = function (choose, preview) {
-    var file = choose.files[0];
+  var onChooseFile = function (chooser) {
+    var file = chooser.files[0];
     var fileName = file.name.toLowerCase();
 
     var matches = FILE_TYPES.some(function (it) {
@@ -51,10 +56,10 @@
       var reader = new FileReader();
 
       reader.addEventListener('load', function () {
-        if (preview !== true & preview !== previewImage) {
-          preview.src = reader.result;
+        if (chooser === fileChooserAvatar) {
+          updateAvatar(reader.result);
         } else {
-          renderElements(reader);
+          addImage(reader.result);
         }
       });
 
@@ -67,19 +72,19 @@
   });
 
   fileChooserImage.addEventListener('change', function () {
-    onChooseFile(fileChooserImage, previewImage);
+    onChooseFile(fileChooserImage);
   });
 
   window.cleanChooser = function () {
+    firstLoad = true;
     var dataPreviewImageBoxes = Array.from(document.querySelectorAll('.ad-form__photo'));
 
     previewAvatar.src = 'img/muffin-grey.svg';
 
-    if (previewImage) {
-      for (var i = 0; i < dataPreviewImageBoxes.length; i++) {
-        dataPreviewImageBoxes[i].remove();
-      }
-      createImgContainer();
+    for (var i = 0; i < dataPreviewImageBoxes.length; i++) {
+      dataPreviewImageBoxes[i].remove();
     }
+    previewImageContainer.appendChild(previewImageBox);
+
   };
 })();

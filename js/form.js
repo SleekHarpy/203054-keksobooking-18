@@ -2,6 +2,7 @@
 
 (function () {
   var mapFilters = document.querySelector('.map__filters-container');
+  var mapFiltersForm = document.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -42,6 +43,7 @@
     adForm.classList.add('ad-form--disabled');
     window.cleanChooser();
     adForm.reset();
+    mapFiltersForm.reset();
 
     disableElements(adFormFieldsets);
     disableElements(mapFiltersSelects);
@@ -113,7 +115,10 @@
     evt.preventDefault();
   });
 
-  adFormResetButton.addEventListener('click', window.cleanChooser);
+  adFormResetButton.addEventListener('click', function () {
+    window.map.disable();
+    window.form.disable();
+  });
 
   window.form = {
     enable: enableForm,
