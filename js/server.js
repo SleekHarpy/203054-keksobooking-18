@@ -18,6 +18,7 @@
       }
     });
 
+
     xhr.open(methot, url);
     xhr.send(data);
   };

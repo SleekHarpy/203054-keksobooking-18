@@ -2,6 +2,7 @@
 
 (function () {
   var mapFilters = document.querySelector('.map__filters-container');
+  var mapFiltersForm = document.querySelector('.map__filters');
   var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
@@ -11,6 +12,7 @@
   var priceInput = adForm.querySelector('#price');
   var timeInSelect = adForm.querySelector('#timein');
   var timeOutSelect = adForm.querySelector('#timeout');
+  var adFormResetButton = adForm.querySelector('.ad-form__reset');
 
   var enableElements = function (elements) {
     for (var i = 0; i < elements.length; i++) {
@@ -39,7 +41,9 @@
 
   var disableForm = function () {
     adForm.classList.add('ad-form--disabled');
+    window.cleanChooser();
     adForm.reset();
+    mapFiltersForm.reset();
 
     disableElements(adFormFieldsets);
     disableElements(mapFiltersSelects);
@@ -109,6 +113,11 @@
       window.message.showErrorMessage();
     });
     evt.preventDefault();
+  });
+
+  adFormResetButton.addEventListener('click', function () {
+    window.map.disable();
+    window.form.disable();
   });
 
   window.form = {

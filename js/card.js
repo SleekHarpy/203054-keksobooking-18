@@ -2,6 +2,8 @@
 
 (function () {
   var ESC_KEYCODE = 27;
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
 
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -25,8 +27,8 @@
 
       photoElement.classList.add('popup__photo');
       photoElement.src = dataPh.offer.photos[i];
-      photoElement.width = 45;
-      photoElement.height = 40;
+      photoElement.width = PHOTO_WIDTH;
+      photoElement.height = PHOTO_HEIGHT;
       photoElement.alt = 'Фотография жилья';
       fragment.appendChild(photoElement);
     }
