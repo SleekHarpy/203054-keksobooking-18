@@ -10,8 +10,7 @@
   var MAX_X = 1200;
   var MIN_Y = 130;
   var MAX_Y = 630;
-  var ENTER_KEYCODE = 13;
-  var SPACEBAR_KEYCODE = 32;
+
 
   var mapBlock = document.querySelector('.map');
   var pinMain = document.querySelector('.map__pin--main');
@@ -71,7 +70,7 @@
     var fragment = document.createDocumentFragment();
 
     for (var i = 0; i < arrayObj.length; i++) {
-      fragment.appendChild(window.pin.generatePinElement(arrayObj[i]));
+      fragment.appendChild(window.generatePinElement(arrayObj[i]));
     }
     mapPins.appendChild(fragment);
   };
@@ -93,7 +92,7 @@
   };
 
   var onPageActivatePress = function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE || evt.keyCode === SPACEBAR_KEYCODE) {
+    if (evt.keyCode === window.util.ENTER_KEYCODE || evt.keyCode === window.util.SPACEBAR_KEYCODE) {
       pageActivate();
     }
   };
@@ -134,7 +133,7 @@
       removePopup();
     },
     renderCard: function (arrayObj) {
-      var cardElement = window.card.generateCardElement(arrayObj);
+      var cardElement = window.generateCardElement(arrayObj);
 
       mapBlock.appendChild(cardElement);
     },

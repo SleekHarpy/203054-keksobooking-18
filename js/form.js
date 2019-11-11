@@ -1,9 +1,7 @@
 'use strict';
 
 (function () {
-  var mapFilters = document.querySelector('.map__filters-container');
-  var mapFiltersForm = document.querySelector('.map__filters');
-  var mapFiltersSelects = mapFilters.querySelectorAll('select, fieldset');
+
   var adForm = document.querySelector('.ad-form');
   var adFormFieldsets = adForm.querySelectorAll('fieldset');
   var roomNumber = document.querySelector('#room_number');
@@ -14,23 +12,11 @@
   var timeOutSelect = adForm.querySelector('#timeout');
   var adFormResetButton = adForm.querySelector('.ad-form__reset');
 
-  var enableElements = function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = false;
-    }
-  };
-
   var enableForm = function () {
     adForm.classList.remove('ad-form--disabled');
 
-    enableElements(adFormFieldsets);
-    enableElements(mapFiltersSelects);
-  };
-
-  var disableElements = function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = true;
-    }
+    window.util.enableElements(adFormFieldsets);
+    window.filters.enableFilters();
   };
 
   var fillInAddress = function (pinCoord) {
@@ -43,10 +29,9 @@
     adForm.classList.add('ad-form--disabled');
     window.cleanChooser();
     adForm.reset();
-    mapFiltersForm.reset();
 
-    disableElements(adFormFieldsets);
-    disableElements(mapFiltersSelects);
+    window.util.disableElements(adFormFieldsets);
+    window.filters.disableFilters();
 
     fillInAddress(window.map.getCoordinatesPinMain(true));
   };

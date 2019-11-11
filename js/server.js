@@ -12,10 +12,17 @@
     xhr.addEventListener('load', function () {
       if (xhr.status === HTTP_SUCCESS_CODE) {
         onSuccess(xhr.response);
-        window.server.downloadPins = xhr.response;
       } else {
         onError();
       }
+    });
+
+    xhr.addEventListener('error', function () {
+      onError();
+    });
+
+    xhr.addEventListener('timeout', function () {
+      onError();
     });
 
 
