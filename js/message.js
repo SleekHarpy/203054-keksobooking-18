@@ -11,7 +11,7 @@
     mainBlock.appendChild(errorElement);
 
     var onErrorEscPress = function (evt) {
-      if (evt.keyCode === window.card.ESC_KEYCODE) {
+      if (evt.keyCode === window.util.ESC_KEYCODE) {
         closeError();
       }
     };
@@ -31,7 +31,7 @@
     mainBlock.appendChild(successElement);
 
     var onSuccessEscPress = function (evt) {
-      if (evt.keyCode === window.card.ESC_KEYCODE) {
+      if (evt.keyCode === window.util.ESC_KEYCODE) {
         closeSuccess();
       }
     };
