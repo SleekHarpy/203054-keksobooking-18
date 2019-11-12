@@ -12,17 +12,17 @@
 
     var onErrorEscPress = function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
-        closeError();
+        onCloseErrorClick();
       }
     };
 
-    var closeError = function () {
+    var onCloseErrorClick = function () {
       errorElement.remove();
       document.removeEventListener('keydown', onErrorEscPress);
     };
 
     document.addEventListener('keydown', onErrorEscPress);
-    errorElement.addEventListener('click', closeError);
+    errorElement.addEventListener('click', onCloseErrorClick);
   };
 
   var showSuccessMessage = function () {
@@ -32,17 +32,17 @@
 
     var onSuccessEscPress = function (evt) {
       if (evt.keyCode === window.util.ESC_KEYCODE) {
-        closeSuccess();
+        onCloseSuccessClick();
       }
     };
 
-    var closeSuccess = function () {
+    var onCloseSuccessClick = function () {
       successElement.remove();
       document.removeEventListener('keydown', onSuccessEscPress);
     };
 
     document.addEventListener('keydown', onSuccessEscPress);
-    successElement.addEventListener('click', closeSuccess);
+    successElement.addEventListener('click', onCloseSuccessClick);
   };
 
   window.message = {

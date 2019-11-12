@@ -6,15 +6,15 @@
   var SPACEBAR_KEYCODE = 32;
 
   var enableElements = function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = false;
-    }
+    elements.forEach(function (i) {
+      i.disabled = false;
+    });
   };
 
   var disableElements = function (elements) {
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].disabled = true;
-    }
+    elements.forEach(function (i) {
+      i.disabled = true;
+    });
   };
 
   window.util = {

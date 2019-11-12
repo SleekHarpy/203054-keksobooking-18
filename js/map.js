@@ -69,13 +69,14 @@
   var renderPins = function (arrayObj) {
     var fragment = document.createDocumentFragment();
 
-    for (var i = 0; i < arrayObj.length; i++) {
-      fragment.appendChild(window.generatePinElement(arrayObj[i]));
-    }
+    arrayObj.forEach(function (i) {
+      fragment.appendChild(window.generatePinElement(i));
+    });
+
     mapPins.appendChild(fragment);
   };
 
-  var pageActivate = function () {
+  var onPinMainMousePress = function () {
     if (mapBlock.classList.contains('map--faded')) {
       window.server.load(function (data) {
         window.filters.getData(data);
@@ -93,11 +94,11 @@
 
   var onPageActivatePress = function (evt) {
     if (evt.keyCode === window.util.ENTER_KEYCODE || evt.keyCode === window.util.SPACEBAR_KEYCODE) {
-      pageActivate();
+      onPinMainMousePress();
     }
   };
 
-  pinMain.addEventListener('mousedown', pageActivate);
+  pinMain.addEventListener('mousedown', onPinMainMousePress);
   pinMain.addEventListener('keydown', onPageActivatePress);
 
   var resetPinCoords = function () {
@@ -106,11 +107,11 @@
   };
 
   var removePinElements = function () {
-    var mapPinElements = document.querySelectorAll('.map__pin');
+    var mapPinElements = document.querySelectorAll('.map__pin--ad');
 
-    for (var i = 1; i < mapPinElements.length; i++) {
-      mapPinElements[i].remove();
-    }
+    mapPinElements.forEach(function (i) {
+      i.remove();
+    });
   };
 
   var removePopup = function () {

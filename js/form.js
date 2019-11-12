@@ -38,7 +38,7 @@
 
   disableForm();
 
-  var validateGuestNumber = function () {
+  var onRoomGuestSelectChange = function () {
     var roomToGuestMessage = '';
 
     if (roomNumber.value !== '100' && capacity.value > roomNumber.value) {
@@ -52,12 +52,12 @@
     capacity.setCustomValidity(roomToGuestMessage);
   };
 
-  validateGuestNumber();
+  onRoomGuestSelectChange();
 
-  roomNumber.addEventListener('change', validateGuestNumber);
-  capacity.addEventListener('change', validateGuestNumber);
+  roomNumber.addEventListener('change', onRoomGuestSelectChange);
+  capacity.addEventListener('change', onRoomGuestSelectChange);
 
-  var validateHousingPrice = function () {
+  var onHousingPriceSelectChange = function () {
     if (typeHousingSelect.value === 'bungalo') {
       priceInput.min = 0;
       priceInput.placeholder = 0;
@@ -73,21 +73,21 @@
     }
   };
 
-  validateHousingPrice();
+  onHousingPriceSelectChange();
 
-  typeHousingSelect.addEventListener('change', validateHousingPrice);
-  priceInput.addEventListener('change', validateHousingPrice);
+  typeHousingSelect.addEventListener('change', onHousingPriceSelectChange);
+  priceInput.addEventListener('change', onHousingPriceSelectChange);
 
-  var updateTimeIn = function (evt) {
+  var onTimeInSelectChange = function (evt) {
     timeInSelect.value = evt.target.value;
   };
 
-  var updateTimeOut = function (evt) {
+  var onTimeOutSelectChange = function (evt) {
     timeOutSelect.value = evt.target.value;
   };
 
-  timeOutSelect.addEventListener('change', updateTimeIn);
-  timeInSelect.addEventListener('change', updateTimeOut);
+  timeOutSelect.addEventListener('change', onTimeInSelectChange);
+  timeInSelect.addEventListener('change', onTimeOutSelectChange);
 
   adForm.addEventListener('submit', function (evt) {
     window.server.upload(new FormData(adForm), function () {

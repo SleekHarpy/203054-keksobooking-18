@@ -15,8 +15,9 @@
 
     pinElement.querySelector('img').src = obj.author.avatar;
     pinElement.querySelector('img').alt = obj.offer.title;
+    pinElement.classList.add('map__pin--ad');
 
-    var pinOpenCard = function () {
+    var onPinClick = function () {
       var popup = document.querySelector('.popup');
 
       if (popup) {
@@ -26,7 +27,7 @@
       window.map.renderCard(obj);
     };
 
-    pinElement.addEventListener('click', pinOpenCard);
+    pinElement.addEventListener('click', onPinClick);
 
     return pinElement;
   };
